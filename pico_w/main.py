@@ -28,7 +28,8 @@ def second10(t):
     date_str = f'{date_tuple[0]}-{date_tuple[1]}-{date_tuple[2]} {date_tuple[4]}:{date_tuple[5]}:{date_tuple[6]}'
     
     # 將溫度、時間傳送至 API server
-    URL = f'https://openapi-pico.onrender.com/temperature/{celsius}/{date_str}'
+    URL = f'https://openapi-test-miif.onrender.com/temperature/{celsius}/{date_str}'
+    # 請改成自己的render網址才會成功，複製貼上班長的會把資料傳去班長的redis
     
     try:
         response = urequests.get(URL)
