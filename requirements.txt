@@ -1,1 +1,4 @@
+fastapi
 redis
+uvicorn[standard]
+python-dotenv
