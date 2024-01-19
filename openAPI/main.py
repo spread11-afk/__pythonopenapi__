@@ -18,8 +18,8 @@ def read_root():
 
 @app.get("/counter/{c}")  #{c} 路徑參數
 def counter(c:int):
-    counter = redis_conn.incrby('testkey',c)
-    return {"Counter":counter}
+    counter1 = redis_conn.incrby('testkey',c)
+    return {"Counter1":counter1}
 
 
 @app.get("/items/{item_id}")
