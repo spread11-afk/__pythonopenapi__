@@ -19,17 +19,18 @@ def alert(temp):
         rtc = RTC()
         date_tuple = rtc.datetime()
         date_str = f'{date_tuple[0]}-{date_tuple[1]}-{date_tuple[2]} {date_tuple[4]}:{date_tuple[5]}:{date_tuple[6]}'
-        url_str = f'https://hook.eu2.make.com/cqwpc26itybacgs0sow2rls1avr0av5r?date={date_str}&temperature={temp}&from=學院養魚場'
+        url_str = f'https://hook.us1.make.com/用自已的?date={date_str}&temperature={temp}&from=學院養魚場'
         try:
             response = urequests.get(url_str)            
         except:
-            print("ap出現問題")
+            print("ap出現問題")            
             reconnect()
         else:
             if response.status_code == 200:            
                 print("傳送訊息成功")
             else:
                 print("傳送失敗(make服務出問題)")
+            response.close()
         start_time = time.ticks_ms()
 
 def second1(t):
