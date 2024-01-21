@@ -18,11 +18,11 @@ def read_root():
 
 @app.get("/temperature/{celsius}")
 def save_temp(celsius:float):
-    redis_conn.set = ('board:temp',celsius)
+    redis_conn.set('board:temp',celsius)
     return {"board:temp": '成功'}
 
 
 @app.get("/temperature")
 def get_temp():
-    temp = redis_conn.get = ('board:temp')
+    temp = redis_conn.get('board:temp')
     return {"當前溫度": temp}
