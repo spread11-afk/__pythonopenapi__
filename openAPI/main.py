@@ -26,3 +26,10 @@ def save_temp(celsius:float):
 def get_temp():
     temp = redis_conn.get('board:temp')
     return {"當前溫度": temp}
+
+@app.get('/pico_w/{date}')
+async def read_item(date:str, address : str ,celsius:float=0.0):
+    print(f'日期:{date}')
+    print(f'位置:{address}')
+    print(f'攝氏:{celsius}')
+    return {"日期":date,"攝氏溫度":celsius}
