@@ -11,7 +11,7 @@ btn = Pin(14,mode=Pin.PULL_DOWN)
 
 is_press = False
 
-#connect()
+connect()
 adc = ADC(4)     # create ADC object on ADC pin,最後一個,溫度
 conversion_factor = 3.3/65535
 
@@ -45,15 +45,16 @@ while True:
                 #celsius = 27 - (reading_v-0.706) / 0.001721
                 print(celsius)
                 time_str = gettime()
+                light = getLight()
                 print(time_str)
                 print(getLight())
-                #url_str = f'https://openapi-test-miif.onrender.com/pico_w/{now}?address=魚池&celsius={celsius}'
+                url_str = f'https://openapi-test-miif.onrender.com/pico_w/{time_str}?address=魚池&celsius={celsius}&light={light}'
                 print('release')
                 red_led.value(1)
                 is_press = False
-                '''
+                
                 try:
-                    response = urequests.get(encode_url)
+                    response = urequests.get(url_str)
                 except:
                     print("ap出現問題")            
                     reconnect()
@@ -63,5 +64,5 @@ while True:
                     else:
                         print("傳送失敗(make服務出問題)")
                     response.close()
-                '''
+                
             red_led.value(0)
