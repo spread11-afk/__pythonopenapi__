@@ -4,6 +4,7 @@ from fastapi import FastAPI
 import redis
 from dotenv import load_dotenv
 import os
+from pydantic import BaseModel
 
 load_dotenv()
 redis_conn = redis.Redis.from_url(os.environ.get('REDIS_HOST_PASSWORD'))
@@ -40,7 +41,7 @@ async def read_item(date:str, address : str ,celsius:float , light:float):
     
     date_get = redis_conn.lrange('pico_w:date',-1,-1)[0].decode()
     address_get = redis_conn.hget('pico_w:address',date_get).decode()
-    temperature_get = redis_conn.hget('pico_w:celsius',date_get).decode()
+    temperature_get = redis_conn.hget('pico_w:temperature',date_get).decode()
     light_get = redis_conn.hget('pico_w:light',date_get).decode()
     
     print(date_get)
@@ -51,18 +52,23 @@ async def read_item(date:str, address : str ,celsius:float , light:float):
     
     return {'成功'}
 
+class Pico_w(BaseModel):
+    date:str
+    address:str
+    temperature:float
+    light:float
 
-@app.get('/pico_w/')
-async def read_item(count:int = 1):
-    date_get = redis_conn.lrange('pico_w:date',-1,-1)[0].decode()
-    address_get = redis_conn.hget('pico_w:address',date_get).decode()
-    temperature_get = redis_conn.hget('pico_w:celsius',date_get).decode()
-    light_get = redis_conn.hget('pico_w:light',date_get).decode()
+@app.get("/pico_w/")
+async def read_item(count:int=1):
+    date_list = redis_conn.lrange('pico_w:date',-count,-1)
+    dates = [date.decode() for date in date_list]
+    all_Data:[Pico_w] = []
+    for date in dates:
+        address_get = redis_conn.hget('pico_w:address',date).decode()
+        temperature_get = redis_conn.hget('pico_w:temperature',date).decode()
+        light_get = redis_conn.hget('pico_w:light',date).decode()
+        item = Pico_w(date=date,address=address_get,temperature=float(temperature_get),light=float(light_get))
+        all_Data.append(item)
+
     
-    # print(date_get)
-    # print(address_get)
-    # print(temperature_get)
-    # print(light_get)
-    
-    
-    return {'date':date_get,'address':address_get,'temp':temperature_get,'light':light_get}
+    return all_Data
