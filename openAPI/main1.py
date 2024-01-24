@@ -37,4 +37,16 @@ async def read_item(date:str, address : str ,celsius:float , light:float):
     redis_conn.hset("pico_w:celsius",mapping={date: celsius})
     #print(f'光:{light}')
     redis_conn.hset("pico_w:light",mapping={date: light})
+    
+    date_get = redis_conn.lrange('pico_w:date',-1,-1)[0].decode()
+    address_get = redis_conn.hget('pico_w:address',date_get).decode()
+    temperature_get = redis_conn.hget('pico_w:celsius',date_get).decode()
+    light_get = redis_conn.hget('pico_w:light',date_get).decode()
+    
+    print(date_get)
+    print(address_get)
+    print(temperature_get)
+    print(light_get)
+    
+    
     return {'成功'}
