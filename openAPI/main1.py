@@ -25,3 +25,19 @@ def counter(c:int):
 @app.get("/items/{item_id}")
 def read_item(item_id: int, q: Union[str, None] = None):
     return {"item_id": item_id, "q": q}
+
+
+@app.get('/pico_w/{date}')
+async def read_item(date:str, address : str ,celsius:float , light_vaule:float):
+    print(f'日期:{date}')
+    print(f'位置:{address}')
+    print(f'攝氏:{celsius}')
+    print(f'光:{light_vaule}')
+    return {"日期":date,"攝氏溫度":celsius}
+
+@app.get('/pico_w/{date}')
+async def read_item(date:str, address : str ,celsius:float=0.0):
+    print(f'日期:{date}')
+    print(f'位置:{address}')
+    print(f'攝氏:{celsius}')
+    return {"日期":date,"攝氏溫度":celsius}
