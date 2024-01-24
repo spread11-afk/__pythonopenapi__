@@ -48,7 +48,7 @@ while True:
                 light = getLight()
                 print(time_str)
                 print(getLight())
-                url_str = f'https://openapi-test-miif.onrender.com/pico_w/{time_str}?address=魚池&celsius={celsius}&light={light}'
+                url_str = f'https://openapi-test-miif.onrender.com/pico_w/{time_str}?address=fishhome&celsius={celsius}&light={light}'
                 print('release')
                 red_led.value(1)
                 is_press = False
