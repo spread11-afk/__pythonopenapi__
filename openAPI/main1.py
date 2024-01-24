@@ -28,16 +28,13 @@ def read_item(item_id: int, q: Union[str, None] = None):
 
 
 @app.get('/pico_w/{date}')
-async def read_item(date:str, address : str ,celsius:float , light_vaule:float):
-    print(f'日期:{date}')
-    print(f'位置:{address}')
-    print(f'攝氏:{celsius}')
-    print(f'光:{light_vaule}')
-    return {"日期":date,"攝氏溫度":celsius}
-
-@app.get('/pico_w/{date}')
-async def read_item(date:str, address : str ,celsius:float=0.0):
-    print(f'日期:{date}')
-    print(f'位置:{address}')
-    print(f'攝氏:{celsius}')
-    return {"日期":date,"攝氏溫度":celsius}
+async def read_item(date:str, address : str ,celsius:float , light:float):
+    #print(f'日期:{date}')
+    redis_conn.rpush("pico_w:date",date)
+    #print(f'位置:{address}')
+    redis_conn.hset("pico_w:address",mapping={date: address})
+    #print(f'攝氏:{celsius}')
+    redis_conn.hset("pico_w:celsius",mapping={date: celsius})
+    #print(f'光:{light}')
+    redis_conn.hset("pico_w:light",mapping={date: light})
+    return {'成功'}
