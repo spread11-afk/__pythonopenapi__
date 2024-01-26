@@ -42,6 +42,18 @@ class Pico_w(BaseModel):
     temperature:float
     light:float
 
+
+@app.get("/pico_w/{date}")
+async def read_item(date:str ,address:str,celsius:float,light:float):
+    #print(f"日期:{date}")
+    redis_conn.rpush('pico_w:date',date)
+    #print(f"位置:{address}")
+    redis_conn.hset('pico_w:address',mapping={date:address})
+    #print(f"攝氏:{celsius}")
+    redis_conn.hset('pico_w:temperature',mapping={date:celsius})
+    #print(f"光線:{light}")
+    redis_conn.hset('pico_w:light',mapping={date:light})
+
 @app.get("/pico_w/")
 async def read_item(count:int=1):
     date_list = redis_conn.lrange('pico_w:date',-count,-1)
