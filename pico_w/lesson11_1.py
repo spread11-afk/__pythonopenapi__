@@ -30,39 +30,42 @@ def getLight():
     light_vaule = adc.read_u16()
     return light_vaule
     
-
-while True:
-    if btn.value():
-        red_led.value(1)
-        is_press = True
-    else:
-        if is_press == True:
-            time.sleep_ms(50)
-            if is_press == True: 
-                now = time.ticks_ms()
-                reading_v = adc.read_u16() * conversion_factor
-                celsius = second1()
-                #celsius = 27 - (reading_v-0.706) / 0.001721
-                print(celsius)
-                time_str = gettime()
-                light = getLight()
-                print(time_str)
-                print(getLight())
-                url_str = f'https://openapi-test-miif.onrender.com/pico_w/{time_str}?address=fishhome&celsius={celsius}&light={light}'
-                print('release')
-                red_led.value(1)
-                is_press = False
-                
-                try:
-                    response = urequests.get(url_str)
-                except:
-                    print("ap出現問題")            
-                    reconnect()
-                else:
-                    if response.status_code == 200:            
-                        print("傳送訊息成功")
+def pushdata():
+    while True:
+        if btn.value():
+            red_led.value(1)
+            is_press = True
+        else:
+            if is_press == True:
+                time.sleep_ms(50)
+                if is_press == True: 
+                    now = time.ticks_ms()
+                    reading_v = adc.read_u16() * conversion_factor
+                    celsius = second1()
+                    #celsius = 27 - (reading_v-0.706) / 0.001721
+                    print(celsius)
+                    time_str = gettime()
+                    light = getLight()
+                    print(time_str)
+                    print(getLight())
+                    url_str = f'https://openapi-test-miif.onrender.com/pico_w/{time_str}?address=fishhome&celsius={celsius}&light={light}'
+                    print('release')
+                    red_led.value(1)
+                    is_press = False
+                    
+                    try:
+                        response = urequests.get(url_str)
+                    except:
+                        print("ap出現問題")            
+                        reconnect()
                     else:
-                        print("傳送失敗(make服務出問題)")
-                    response.close()
-                
-            red_led.value(0)
+                        if response.status_code == 200:            
+                            print("傳送訊息成功")
+                        else:
+                            print("傳送失敗(make服務出問題)")
+                        response.close()
+                    
+                red_led.value(0)
+
+time = Timer()
+time.init(period=1000, callback=pushdata)

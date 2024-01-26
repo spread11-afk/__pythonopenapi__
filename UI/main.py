@@ -4,7 +4,7 @@ import streamlit as st
 from streamlit_autorefresh import st_autorefresh
 
 
-st_autorefresh(interval=10000,limit=100,key='fizzbuzzcounter')
+st_autorefresh(interval=10000,key='fizzbuzzcounter')
 
 url = 'https://openapi-test-miif.onrender.com/pico_w/?count=5'
 
