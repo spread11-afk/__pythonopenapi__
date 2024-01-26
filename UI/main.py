@@ -16,7 +16,7 @@ if r.status_code == 200:
 
 df = pd.DataFrame(data)
 
-st.title("阿阿阿阿阿")
+st.title("阿阿阿阿阿:sunglasses:")
 st.header("呵呵呵呵呵")
 st.write(df)
 st.caption('dsfskldnfl : blue[colors] and emojis :sungalsses:')
